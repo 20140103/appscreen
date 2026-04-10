@@ -33,7 +33,7 @@ function showMagicalTitlesTooltip() {
     tooltip.id = 'magical-titles-tooltip';
     tooltip.innerHTML = `
         <button class="feature-tooltip-close" onclick="dismissMagicalTitlesTooltip()">×</button>
-        ✨ Try AI-generated titles!
+        ${t('magical_tooltip_cta')}
     `;
 
     btn.appendChild(tooltip);
@@ -244,7 +244,7 @@ async function generateTitlesWithGoogle(apiKey, images, prompt) {
 function showMagicalTitlesDialog() {
     // Validate screenshots exist
     if (!state.screenshots || state.screenshots.length === 0) {
-        showAppAlert('Please add some screenshots first.', 'info');
+        showAppAlert(t('msg_add_screenshots_first_info'), 'info');
         return;
     }
 
@@ -254,7 +254,7 @@ function showMagicalTitlesDialog() {
     const apiKey = localStorage.getItem(providerConfig.storageKey);
 
     if (!apiKey) {
-        showAppAlert('Please configure your AI API key in Settings first.', 'error');
+        showAppAlert(t('msg_configure_ai_key'), 'error');
         return;
     }
 
@@ -375,7 +375,7 @@ Write all titles in ${langName}.`;
         // Call provider-specific API
         let responseText;
 
-        updateStatus('Sending screenshots to AI...', `${images.length} images to analyze`);
+        updateStatus(t('magical_status_sending_ai'), tf('magical_status_images_detail', { count: images.length }));
 
         if (provider === 'anthropic') {
             responseText = await generateTitlesWithAnthropic(apiKey, images, prompt);
@@ -387,7 +387,7 @@ Write all titles in ${langName}.`;
             throw new Error(`Unknown provider: ${provider}`);
         }
 
-        updateStatus('Processing response...', 'Parsing generated titles');
+        updateStatus(t('magical_status_processing'), t('magical_status_parsing_titles'));
 
         // Clean up response - remove markdown code blocks if present
         responseText = responseText.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
@@ -403,7 +403,7 @@ Write all titles in ${langName}.`;
         // Parse JSON
         const titles = JSON.parse(responseText);
 
-        updateStatus('Applying titles...', 'Updating screenshots');
+        updateStatus(t('magical_status_applying_titles'), t('magical_status_updating_shots'));
 
         // Apply titles to screenshots
         for (let i = 0; i < state.screenshots.length; i++) {
@@ -449,11 +449,11 @@ Write all titles in ${langName}.`;
         progressOverlay.remove();
 
         if (error.message === 'AI_UNAVAILABLE') {
-            await showAppAlert('AI service unavailable. Please check your API key in Settings.', 'error');
+            await showAppAlert(t('msg_ai_service_unavailable'), 'error');
         } else if (error instanceof SyntaxError) {
-            await showAppAlert('Failed to parse AI response. Please try again.', 'error');
+            await showAppAlert(t('msg_ai_response_parse_failed'), 'error');
         } else {
-            await showAppAlert(`Error generating titles: ${error.message}`, 'error');
+            await showAppAlert(tf('msg_magical_titles_error', { message: error.message }), 'error');
         }
     }
 }

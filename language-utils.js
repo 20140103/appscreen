@@ -499,7 +499,7 @@ function showDuplicateDialog(params) {
             } else {
                 // Show that no image exists for this language yet
                 const flag = languageFlags[params.detectedLang] || '🏳️';
-                existingName.textContent = `No ${flag} image`;
+                existingName.textContent = tf('dup_no_lang_image', { flag });
             }
         }
         if (newName) {

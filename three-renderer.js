@@ -1099,10 +1099,10 @@ function setup3DCanvasInteraction() {
             ss.y = Math.max(0, Math.min(100, ss.y + deltaY * 0.2));
 
             // Update sliders
-            document.getElementById('screenshot-x').value = ss.x;
-            document.getElementById('screenshot-x-value').textContent = Math.round(ss.x) + '%';
-            document.getElementById('screenshot-y').value = ss.y;
-            document.getElementById('screenshot-y-value').textContent = Math.round(ss.y) + '%';
+            document.getElementById('device-x').value = ss.x;
+            document.getElementById('device-x-value').textContent = Math.round(ss.x) + '%';
+            document.getElementById('device-y').value = ss.y;
+            document.getElementById('device-y-value').textContent = Math.round(ss.y) + '%';
         } else {
             // Regular drag: rotate
             if (!ss.rotation3D) ss.rotation3D = { x: 0, y: 0, z: 0 };

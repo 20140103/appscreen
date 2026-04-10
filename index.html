@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -261,9 +261,9 @@
                                     <span class="device-option-size" data-i18n="device_custom_desc">Set dimensions</span>
                                 </div>
                                 <div id="custom-size-inputs" class="custom-size-inputs">
-                                    <input type="number" id="custom-width" value="1290" min="100" max="4000" placeholder="Width">
+                                    <input type="number" id="custom-width" value="1290" min="100" max="4000" data-i18n-placeholder="ph_custom_width" placeholder="Width">
                                     <span class="custom-size-x">×</span>
-                                    <input type="number" id="custom-height" value="2796" min="100" max="4000" placeholder="Height">
+                                    <input type="number" id="custom-height" value="2796" min="100" max="4000" data-i18n-placeholder="ph_custom_height" placeholder="Height">
                                 </div>
                             </div>
                         </div>
@@ -450,7 +450,7 @@
                 <!-- Solid Color Options -->
                 <div id="solid-options" style="display: none;">
                     <div class="control-group">
-                        <label class="control-label">Background Color</label>
+                        <label class="control-label" data-i18n="bg_label_solid_color">Background Color</label>
                         <div class="color-input-wrapper">
                             <input type="color" id="solid-color" value="#1a1a2e">
                             <input type="text" id="solid-color-hex" value="#1a1a2e">
@@ -461,37 +461,37 @@
                 <!-- Image Options -->
                 <div id="image-options" style="display: none;">
                     <div class="control-group">
-                        <label class="control-label">Background Image</label>
+                        <label class="control-label" data-i18n="bg_label_image">Background Image</label>
                         <div class="bg-image-upload" id="bg-image-upload">
-                            <p>Click to upload image</p>
+                            <p data-i18n="bg_upload_hint">Click to upload image</p>
                         </div>
                         <input type="file" id="bg-image-input" accept="image/*" hidden>
                         <img class="bg-image-preview" id="bg-image-preview" style="display: none;">
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Image Fit</label>
+                        <label class="control-label" data-i18n="bg_image_fit">Image Fit</label>
                         <select id="bg-image-fit">
-                            <option value="cover">Cover</option>
-                            <option value="contain">Contain</option>
-                            <option value="stretch">Stretch</option>
+                            <option value="cover" data-i18n="bg_cover">Cover</option>
+                            <option value="contain" data-i18n="bg_contain">Contain</option>
+                            <option value="stretch" data-i18n="bg_fit_stretch">Stretch</option>
                         </select>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Blur</label>
+                        <label class="control-label" data-i18n="bg_label_blur_simple">Blur</label>
                         <div class="control-row">
                             <input type="range" id="bg-blur" min="0" max="50" value="0">
                             <span class="range-value" id="bg-blur-value">0px</span>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Overlay Color</label>
+                        <label class="control-label" data-i18n="bg_label_overlay_color_simple">Overlay Color</label>
                         <div class="color-input-wrapper">
                             <input type="color" id="bg-overlay-color" value="#000000">
                             <input type="text" id="bg-overlay-hex" value="#000000">
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Overlay Opacity</label>
+                        <label class="control-label" data-i18n="bg_label_overlay_opacity_simple">Overlay Opacity</label>
                         <div class="control-row">
                             <input type="range" id="bg-overlay-opacity" min="0" max="100" value="0">
                             <span class="range-value" id="bg-overlay-opacity-value">0%</span>
@@ -507,14 +507,14 @@
                             <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="6 9 12 15 18 9"/>
                             </svg>
-                            Noise
+                            <span data-i18n="noise_section">Noise</span>
                         </span>
                         <div class="toggle" id="noise-toggle"></div>
                     </div>
                 </div>
                 <div id="noise-options" style="display: none;">
                     <div class="control-group">
-                        <label class="control-label">Noise Intensity</label>
+                        <label class="control-label" data-i18n="bg_noise_intensity">Noise Intensity</label>
                         <div class="control-row">
                             <input type="range" id="noise-intensity" min="0" max="100" value="10">
                             <span class="range-value" id="noise-intensity-value">10%</span>
@@ -537,26 +537,26 @@
                     <div class="control-group">
                         <label class="control-label" data-i18n="device_model">Device Model</label>
                         <div class="btn-group" id="device-3d-selector">
-                            <button class="active" data-model="iphone">iPhone</button>
-                            <button data-model="samsung">Samsung</button>
+                            <button type="button" class="active" data-model="iphone" data-i18n="device_brand_iphone">iPhone</button>
+                            <button type="button" data-model="samsung" data-i18n="device_brand_samsung">Samsung</button>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Rotation X (Tilt)</label>
+                        <label class="control-label" data-i18n="device_rot_x">Rotation X (Tilt)</label>
                         <div class="control-row">
                             <input type="range" id="rotation-3d-x" min="-45" max="45" value="0">
                             <span class="range-value" id="rotation-3d-x-value">0°</span>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Rotation Y (Turn)</label>
+                        <label class="control-label" data-i18n="device_rot_y">Rotation Y (Turn)</label>
                         <div class="control-row">
                             <input type="range" id="rotation-3d-y" min="-45" max="45" value="0">
                             <span class="range-value" id="rotation-3d-y-value">0°</span>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Rotation Z (Roll)</label>
+                        <label class="control-label" data-i18n="device_rot_z">Rotation Z (Roll)</label>
                         <div class="control-row">
                             <input type="range" id="rotation-3d-z" min="-45" max="45" value="0">
                             <span class="range-value" id="rotation-3d-z-value">0°</span>
@@ -567,61 +567,61 @@
                 <div id="position-presets-section">
                 <div class="control-group">
                     <div class="preset-dropdown" id="position-preset-dropdown">
-                        <button class="preset-dropdown-trigger" id="position-preset-trigger">
-                            <span>Position Presets</span>
+                        <button type="button" class="preset-dropdown-trigger" id="position-preset-trigger">
+                            <span data-i18n="preset_dropdown_label">Position Presets</span>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="6 9 12 15 18 9"/>
                             </svg>
                         </button>
                         <div class="preset-dropdown-content" id="position-preset-content">
                             <div class="preset-positions" id="position-presets">
-                                <button class="position-preset active" data-preset="centered" title="Centered">
+                                <button type="button" class="position-preset active" data-preset="centered" data-i18n-title="preset_centered" title="Centered">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="8" y="12" width="24" height="36" rx="2"/>
                                     </svg>
-                                    <span>Centered</span>
+                                    <span data-i18n="preset_centered">Centered</span>
                                 </button>
-                                <button class="position-preset" data-preset="bleed-bottom" title="Bleed Bottom">
+                                <button type="button" class="position-preset" data-preset="bleed-bottom" data-i18n-title="preset_bleed_bottom" title="Bleed Bottom">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="8" y="20" width="24" height="45" rx="2"/>
                                     </svg>
-                                    <span>Bleed Bottom</span>
+                                    <span data-i18n="preset_bleed_bottom">Bleed Bottom</span>
                                 </button>
-                                <button class="position-preset" data-preset="bleed-top" title="Bleed Top">
+                                <button type="button" class="position-preset" data-preset="bleed-top" data-i18n-title="preset_bleed_top" title="Bleed Top">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="8" y="-5" width="24" height="45" rx="2"/>
                                     </svg>
-                                    <span>Bleed Top</span>
+                                    <span data-i18n="preset_bleed_top">Bleed Top</span>
                                 </button>
-                                <button class="position-preset" data-preset="float-center" title="Float Center">
+                                <button type="button" class="position-preset" data-preset="float-center" data-i18n-title="preset_float_center" title="Float Center">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="10" y="15" width="20" height="30" rx="2"/>
                                     </svg>
-                                    <span>Float Center</span>
+                                    <span data-i18n="preset_float_center">Float Center</span>
                                 </button>
-                                <button class="position-preset" data-preset="tilt-left" title="Tilt Left">
+                                <button type="button" class="position-preset" data-preset="tilt-left" data-i18n-title="preset_tilt_left" title="Tilt Left">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="8" y="12" width="24" height="36" rx="2" transform="rotate(-8 20 30)"/>
                                     </svg>
-                                    <span>Tilt Left</span>
+                                    <span data-i18n="preset_tilt_left">Tilt Left</span>
                                 </button>
-                                <button class="position-preset" data-preset="tilt-right" title="Tilt Right">
+                                <button type="button" class="position-preset" data-preset="tilt-right" data-i18n-title="preset_tilt_right" title="Tilt Right">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="8" y="12" width="24" height="36" rx="2" transform="rotate(8 20 30)"/>
                                     </svg>
-                                    <span>Tilt Right</span>
+                                    <span data-i18n="preset_tilt_right">Tilt Right</span>
                                 </button>
-                                <button class="position-preset" data-preset="perspective" title="Perspective">
+                                <button type="button" class="position-preset" data-preset="perspective" data-i18n-title="preset_perspective" title="Perspective">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M12 15 L28 12 L30 48 L10 45 Z"/>
                                     </svg>
-                                    <span>Perspective</span>
+                                    <span data-i18n="preset_perspective">Perspective</span>
                                 </button>
-                                <button class="position-preset" data-preset="float-bottom" title="Float Bottom">
+                                <button type="button" class="position-preset" data-preset="float-bottom" data-i18n-title="preset_float_bottom" title="Float Bottom">
                                     <svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="10" y="25" width="20" height="30" rx="2"/>
                                     </svg>
-                                    <span>Float Bottom</span>
+                                    <span data-i18n="preset_float_bottom">Float Bottom</span>
                                 </button>
                             </div>
                         </div>
@@ -632,8 +632,6 @@
                 <div class="divider"></div>
 
                 <div class="control-group">
-                    <label class="control-label">Screenshot Scale</label>
-                    <div class="control-row">
                     <label class="control-label" data-i18n="device_scale">Screenshot Scale</label>
                     <div class="control-row">
                         <input type="range" id="device-scale" min="10" max="100" value="70">
@@ -775,8 +773,8 @@
                 <div id="3d-tip" class="tip-box" style="display: none;">
                     <img src="img/info.svg" width="16" height="16" alt="Info">
                     <div class="tip-content">
-                        <strong>Interactive Controls</strong>
-                        <span>Drag on preview to rotate • Alt+drag to move</span>
+                        <strong data-i18n="device_3d_tip_title">Interactive Controls</strong>
+                        <span data-i18n="device_3d_tip_body">Drag on preview to rotate • Alt+drag to move</span>
                     </div>
                 </div>
             </div>
@@ -798,7 +796,7 @@
                 <div id="headline-options">
                 <div class="control-group">
                     <div class="textarea-with-button">
-                        <textarea id="headline-text" rows="2" placeholder="Your feature headline"></textarea>
+                        <textarea id="headline-text" rows="2" data-i18n-placeholder="ph_headline" placeholder="Your feature headline"></textarea>
                         <button class="magic-translate-btn" id="translate-headline-btn" title="Translate to all languages">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
@@ -809,7 +807,31 @@
 
                 <div class="control-group">
                     <label class="control-label" data-i18n="text_font">Font</label>
-                    <div id="headline-font-picker"></div>
+                    <div class="font-picker" id="font-picker">
+                        <button type="button" class="font-picker-trigger" id="font-picker-trigger">
+                            <span class="font-picker-preview" id="font-picker-preview">SF Pro Display</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="font-picker-dropdown" id="font-picker-dropdown">
+                            <div class="font-picker-search">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="M21 21l-4.35-4.35"/>
+                                </svg>
+                                <input type="text" id="font-search" data-i18n-placeholder="fonts_search" placeholder="Search fonts..." autocomplete="off">
+                            </div>
+                            <div class="font-picker-categories">
+                                <button type="button" class="font-category active" data-category="popular" data-i18n="fonts_cat_popular">Popular</button>
+                                <button type="button" class="font-category" data-category="system" data-i18n="fonts_cat_system">System</button>
+                                <button type="button" class="font-category" data-category="all" data-i18n="fonts_cat_all">All</button>
+                            </div>
+                            <div class="font-picker-list" id="font-picker-list">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="headline-font" value="-apple-system, BlinkMacSystemFont, 'SF Pro Display'">
                 </div>
 
                 <div class="control-row-group">
@@ -890,7 +912,7 @@
                 <div id="subheadline-options" style="display: none;">
                 <div class="control-group">
                     <div class="textarea-with-button">
-                        <textarea id="subheadline-text" rows="2" placeholder="Optional subheadline"></textarea>
+                        <textarea id="subheadline-text" rows="2" data-i18n-placeholder="ph_subheadline" placeholder="Optional subheadline"></textarea>
                         <button class="magic-translate-btn" id="translate-subheadline-btn" title="Translate to all languages">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
@@ -901,7 +923,31 @@
 
                 <div class="control-group">
                     <label class="control-label" data-i18n="text_font">Font</label>
-                    <div id="subheadline-font-picker"></div>
+                    <div class="font-picker" id="subheadline-font-picker">
+                        <button type="button" class="font-picker-trigger" id="subheadline-font-picker-trigger">
+                            <span class="font-picker-preview" id="subheadline-font-picker-preview">SF Pro Display</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="font-picker-dropdown" id="subheadline-font-picker-dropdown">
+                            <div class="font-picker-search">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="M21 21l-4.35-4.35"/>
+                                </svg>
+                                <input type="text" id="subheadline-font-search" data-i18n-placeholder="fonts_search" placeholder="Search fonts..." autocomplete="off">
+                            </div>
+                            <div class="font-picker-categories">
+                                <button type="button" class="font-category active" data-category="popular" data-i18n="fonts_cat_popular">Popular</button>
+                                <button type="button" class="font-category" data-category="system" data-i18n="fonts_cat_system">System</button>
+                                <button type="button" class="font-category" data-category="all" data-i18n="fonts_cat_all">All</button>
+                            </div>
+                            <div class="font-picker-list" id="subheadline-font-picker-list">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="subheadline-font" value="-apple-system, BlinkMacSystemFont, 'SF Pro Display'">
                 </div>
 
                 <div class="control-row-group">
@@ -1151,7 +1197,7 @@
                         <div class="control-group">
                             <label class="control-label">Text</label>
                             <div class="textarea-with-button">
-                                <textarea id="element-text-input" rows="2" placeholder="Enter text"></textarea>
+                                <textarea id="element-text-input" rows="2" data-i18n-placeholder="ph_element_text" placeholder="Enter text"></textarea>
                                 <button class="magic-translate-btn" id="translate-element-btn" title="Translate to all languages">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
@@ -1161,7 +1207,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Font</label>
+                            <label class="control-label" data-i18n="elements_font_label">Font</label>
                             <div class="font-picker" id="element-font-picker">
                                 <button class="font-picker-trigger" id="element-font-picker-trigger">
                                     <span class="font-picker-preview" id="element-font-picker-preview">SF Pro Display</span>
@@ -1214,7 +1260,7 @@
 
                         <div class="divider"></div>
                         <div class="control-group">
-                            <label class="control-label">Frame</label>
+                            <label class="control-label" data-i18n="elements_frame_label">Frame</label>
                             <select id="element-frame">
                                 <option value="none">None</option>
                                 <option value="laurel-simple">Laurel Simple</option>
@@ -1436,7 +1482,7 @@
             <h3 class="modal-title" id="project-modal-title">New Project</h3>
             <div class="control-group" style="margin: 20px 0; text-align: left;">
                 <label class="control-label">Project Name</label>
-                <input type="text" id="project-name-input" placeholder="My App Screenshots">
+                <input type="text" id="project-name-input" data-i18n-placeholder="ph_project_name" placeholder="My App Screenshots">
             </div>
             <div class="control-group" style="margin: 20px 0; text-align: left; display: none;" id="duplicate-from-group">
                 <label class="control-label">Duplicate from</label>
@@ -1477,11 +1523,11 @@
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                 </svg>
             </div>
-            <h3 class="modal-title">Apply Style to All?</h3>
-            <p class="modal-message">This will copy the background, device, and text settings from this screenshot to all other screenshots. This cannot be undone.</p>
+            <h3 class="modal-title" data-i18n="style_apply_all_title">Apply Style to All?</h3>
+            <p class="modal-message" data-i18n="style_apply_all_desc">This will copy the background, device, and text settings from this screenshot to all other screenshots. This cannot be undone.</p>
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-cancel" id="apply-style-cancel">Cancel</button>
-                <button class="modal-btn modal-btn-confirm" id="apply-style-confirm" style="background: var(--accent);">Apply to All</button>
+                <button class="modal-btn modal-btn-cancel" id="apply-style-cancel" data-i18n="settings_cancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="apply-style-confirm" style="background: var(--accent);" data-i18n="style_apply_all_confirm">Apply to All</button>
             </div>
         </div>
     </div>
@@ -1494,18 +1540,18 @@
                     <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z"/>
                 </svg>
             </div>
-            <h3 class="modal-title">Generate Magical Titles</h3>
-            <p class="modal-message">This will use AI to analyze your screenshots and generate marketing headlines and subheadlines for each screen.</p>
-            <p class="modal-message" style="margin-top: 8px; font-size: 12px; color: var(--text-tertiary);">Screenshots: <span id="magical-titles-count">0</span> · Provider: <span id="magical-titles-provider">-</span></p>
+            <h3 class="modal-title" data-i18n="magical_confirm_title">Generate Magical Titles</h3>
+            <p class="modal-message" data-i18n="magical_confirm_desc">This will use AI to analyze your screenshots and generate marketing headlines and subheadlines for each screen.</p>
+            <p class="modal-message" style="margin-top: 8px; font-size: 12px; color: var(--text-tertiary);"><span data-i18n="magical_label_screenshots">Screenshots:</span> <span id="magical-titles-count">0</span> · <span data-i18n="magical_label_provider">Provider:</span> <span id="magical-titles-provider">-</span></p>
             <div class="translate-source" style="margin-top: 16px;">
-                <label class="control-label">Generate titles in</label>
+                <label class="control-label" data-i18n="magical_generate_in">Generate titles in</label>
                 <select id="magical-titles-language" style="margin-bottom: 0;">
                     <!-- Populated dynamically -->
                 </select>
             </div>
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-cancel" id="magical-titles-cancel">Cancel</button>
-                <button class="modal-btn modal-btn-confirm" id="magical-titles-confirm" style="background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);">Generate Titles</button>
+                <button class="modal-btn modal-btn-cancel" id="magical-titles-cancel" data-i18n="settings_cancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="magical-titles-confirm" style="background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);" data-i18n="magical_generate_btn">Generate Titles</button>
             </div>
         </div>
     </div>
@@ -1518,12 +1564,12 @@
                     <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <h3 class="modal-title">Old Project Format Detected</h3>
-            <p class="modal-message">This project uses an older format where all screenshots share the same settings. The new format allows each screenshot to have its own background, position, and text settings.</p>
-            <p class="modal-message" style="margin-top: 8px;">Would you like to convert this project to the new format?</p>
+            <h3 class="modal-title" data-i18n="migration_title">Old Project Format Detected</h3>
+            <p class="modal-message" data-i18n="migration_desc">This project uses an older format where all screenshots share the same settings. The new format allows each screenshot to have its own background, position, and text settings.</p>
+            <p class="modal-message" style="margin-top: 8px;" data-i18n="migration_question">Would you like to convert this project to the new format?</p>
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-cancel" onclick="hideMigrationPrompt()">Keep Old Format</button>
-                <button class="modal-btn modal-btn-primary" onclick="convertProject()">Convert Project</button>
+                <button class="modal-btn modal-btn-cancel" onclick="hideMigrationPrompt()" data-i18n="migration_keep_old">Keep Old Format</button>
+                <button class="modal-btn modal-btn-primary" onclick="convertProject()" data-i18n="migration_convert">Convert Project</button>
             </div>
         </div>
     </div>
@@ -1536,11 +1582,11 @@
                     <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
                 </svg>
             </div>
-            <h3 class="modal-title">Translate <span id="translate-target-type">Headline</span></h3>
-            <p class="modal-message">Select a source language and enter translations for each active language.</p>
+            <h3 class="modal-title"><span data-i18n="translate_modal_heading">Translate</span> <span id="translate-target-type">Headline</span></h3>
+            <p class="modal-message" data-i18n="translate_modal_desc">Select a source language and enter translations for each active language.</p>
             
             <div class="translate-source">
-                <label class="control-label">Source Language</label>
+                <label class="control-label" data-i18n="translate_source_lang">Source Language</label>
                 <select id="translate-source-lang">
                     <option value="en">🇺🇸 English (US)</option>
                 </select>
@@ -1549,7 +1595,7 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
-                    <span>Auto-translate with AI</span>
+                    <span data-i18n="text_ai_action">Auto-translate with AI</span>
                 </button>
                 <div class="ai-translate-status" id="ai-translate-status"></div>
             </div>
@@ -1559,8 +1605,8 @@
             </div>
 
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-cancel" id="translate-modal-cancel">Cancel</button>
-                <button class="modal-btn modal-btn-confirm" id="translate-modal-apply" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Apply Translations</button>
+                <button class="modal-btn modal-btn-cancel" id="translate-modal-cancel" data-i18n="settings_cancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="translate-modal-apply" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" data-i18n="translate_apply">Apply Translations</button>
             </div>
         </div>
     </div>
@@ -1569,7 +1615,7 @@
     <div class="modal-overlay" id="settings-modal">
         <div class="modal settings-modal">
             <div class="modal-header">
-                <h3 class="modal-title">Settings</h3>
+                <h3 class="modal-title" data-i18n="settings_header">Settings</h3>
                 <button class="modal-close" id="settings-modal-close">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6L6 18M6 6l12 12"/>
@@ -1582,21 +1628,21 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
-                    AI Translation Provider
+                    <span data-i18n="settings_ai_provider_section">AI Translation Provider</span>
                 </h4>
-                <p class="settings-description">Choose which AI provider to use for translations. API keys are stored locally in your browser.</p>
+                <p class="settings-description" data-i18n="settings_ai_provider_desc">Choose which AI provider to use for translations. API keys are stored locally in your browser.</p>
                 <div class="settings-provider-selector">
                     <label class="settings-provider-option">
                         <input type="radio" name="ai-provider" value="anthropic" checked>
-                        <span class="provider-label">Anthropic (Claude)</span>
+                        <span class="provider-label" data-i18n="settings_provider_anthropic">Anthropic (Claude)</span>
                     </label>
                     <label class="settings-provider-option">
                         <input type="radio" name="ai-provider" value="openai">
-                        <span class="provider-label">OpenAI (GPT)</span>
+                        <span class="provider-label" data-i18n="settings_provider_openai">OpenAI (GPT)</span>
                     </label>
                     <label class="settings-provider-option">
                         <input type="radio" name="ai-provider" value="google">
-                        <span class="provider-label">Google (Gemini)</span>
+                        <span class="provider-label" data-i18n="settings_provider_google">Google (Gemini)</span>
                     </label>
                 </div>
             </div>
@@ -1606,11 +1652,11 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
                     </svg>
-                    Claude API Key
+                    <span data-i18n="settings_claude_key_title">Claude API Key</span>
                 </h4>
                 <div class="settings-input-group">
                     <input type="password" id="settings-api-key-anthropic" placeholder="sk-ant-api03-..." />
-                    <button class="settings-show-key" data-target="settings-api-key-anthropic" title="Show/hide key">
+                    <button class="settings-show-key" data-target="settings-api-key-anthropic" data-i18n-title="settings_show_key_title" title="Show/hide key">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                             <circle cx="12" cy="12" r="3"/>
@@ -1619,7 +1665,7 @@
                 </div>
                 <div class="settings-key-status" id="settings-key-status-anthropic"></div>
                 <div class="settings-model-group">
-                    <label class="settings-model-label">Model</label>
+                    <label class="settings-model-label" data-i18n="settings_model_label_short">Model</label>
                     <select id="settings-model-anthropic" class="settings-model-select">
                         <!-- Populated dynamically from llm.js -->
                     </select>
@@ -1628,7 +1674,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
                     </svg>
-                    Get your API key from Anthropic Console
+                    <span data-i18n="settings_key_anthropic_link">Get your API key from Anthropic Console</span>
                 </a>
             </div>
 
@@ -1637,11 +1683,11 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
                     </svg>
-                    OpenAI API Key
+                    <span data-i18n="settings_openai_key_title">OpenAI API Key</span>
                 </h4>
                 <div class="settings-input-group">
                     <input type="password" id="settings-api-key-openai" placeholder="sk-..." />
-                    <button class="settings-show-key" data-target="settings-api-key-openai" title="Show/hide key">
+                    <button class="settings-show-key" data-target="settings-api-key-openai" data-i18n-title="settings_show_key_title" title="Show/hide key">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                             <circle cx="12" cy="12" r="3"/>
@@ -1650,7 +1696,7 @@
                 </div>
                 <div class="settings-key-status" id="settings-key-status-openai"></div>
                 <div class="settings-model-group">
-                    <label class="settings-model-label">Model</label>
+                    <label class="settings-model-label" data-i18n="settings_model_label_short">Model</label>
                     <select id="settings-model-openai" class="settings-model-select">
                         <!-- Populated dynamically from llm.js -->
                     </select>
@@ -1659,7 +1705,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
                     </svg>
-                    Get your API key from OpenAI Platform
+                    <span data-i18n="settings_key_openai_link">Get your API key from OpenAI Platform</span>
                 </a>
             </div>
 
@@ -1668,11 +1714,11 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
                     </svg>
-                    Google AI API Key
+                    <span data-i18n="settings_google_key_title">Google AI API Key</span>
                 </h4>
                 <div class="settings-input-group">
                     <input type="password" id="settings-api-key-google" placeholder="AIza..." />
-                    <button class="settings-show-key" data-target="settings-api-key-google" title="Show/hide key">
+                    <button class="settings-show-key" data-target="settings-api-key-google" data-i18n-title="settings_show_key_title" title="Show/hide key">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                             <circle cx="12" cy="12" r="3"/>
@@ -1681,7 +1727,7 @@
                 </div>
                 <div class="settings-key-status" id="settings-key-status-google"></div>
                 <div class="settings-model-group">
-                    <label class="settings-model-label">Model</label>
+                    <label class="settings-model-label" data-i18n="settings_model_label_short">Model</label>
                     <select id="settings-model-google" class="settings-model-select">
                         <!-- Populated dynamically from llm.js -->
                     </select>
@@ -1690,7 +1736,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
                     </svg>
-                    Get your API key from Google AI Studio
+                    <span data-i18n="settings_key_google_link">Get your API key from Google AI Studio</span>
                 </a>
             </div>
 
@@ -1712,8 +1758,8 @@
             </div>
 
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-cancel" id="settings-modal-cancel">Cancel</button>
-                <button class="modal-btn modal-btn-confirm" id="settings-modal-save">Save Settings</button>
+                <button class="modal-btn modal-btn-cancel" id="settings-modal-cancel" data-i18n="settings_cancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="settings-modal-save" data-i18n="settings_save">Save Settings</button>
             </div>
         </div>
     </div>

@@ -1099,7 +1099,7 @@ async function renderFontList(pickerId, ids) {
     const displayFonts = fonts.slice(0, 100);
 
     if (displayFonts.length === 0) {
-        fontList.innerHTML = '<div class="font-picker-empty">No fonts found</div>';
+        fontList.innerHTML = `<div class="font-picker-empty">${t('fonts_no_match')}</div>`;
         return;
     }
 
@@ -1133,7 +1133,7 @@ async function renderFontList(pickerId, ids) {
                 option.querySelector('.font-option-category').classList.add('font-option-loading');
                 await loadGoogleFont(fontName);
                 option.querySelector('.font-option-name').style.fontFamily = fontValue;
-                option.querySelector('.font-option-category').textContent = 'google';
+                option.querySelector('.font-option-category').textContent = t('font_category_google');
                 option.querySelector('.font-option-category').classList.remove('font-option-loading');
             }
 
@@ -1484,7 +1484,7 @@ function initSync() {
     updateCanvas();
     
     // Initial UI translation
-    applyTranslations();
+    applyUITranslations();
     syncUILanguageSelector();
     
     // Then load saved data asynchronously
@@ -2212,12 +2212,12 @@ function syncUIWithState() {
     document.getElementById('noise-intensity-value').textContent = formatValue(bg.noiseIntensity) + '%';
 
     // Screenshot settings
-    document.getElementById('screenshot-scale').value = ss.scale;
-    document.getElementById('screenshot-scale-value').textContent = formatValue(ss.scale) + '%';
-    document.getElementById('screenshot-y').value = ss.y;
-    document.getElementById('screenshot-y-value').textContent = formatValue(ss.y) + '%';
-    document.getElementById('screenshot-x').value = ss.x;
-    document.getElementById('screenshot-x-value').textContent = formatValue(ss.x) + '%';
+    document.getElementById('device-scale').value = ss.scale;
+    document.getElementById('device-scale-value').textContent = formatValue(ss.scale) + '%';
+    document.getElementById('device-y').value = ss.y;
+    document.getElementById('device-y-value').textContent = formatValue(ss.y) + '%';
+    document.getElementById('device-x').value = ss.x;
+    document.getElementById('device-x-value').textContent = formatValue(ss.x) + '%';
     document.getElementById('corner-radius').value = ss.cornerRadius;
     document.getElementById('corner-radius-value').textContent = formatValue(ss.cornerRadius) + 'px';
     document.getElementById('screenshot-rotation').value = ss.rotation;
@@ -3945,7 +3945,7 @@ function setupEventListeners() {
     });
 
     document.getElementById('translate-modal-apply').addEventListener('click', () => {
-        applyTranslations();
+        commitTranslateModal();
         document.getElementById('translate-modal').classList.remove('visible');
     });
 
@@ -4001,7 +4001,7 @@ function setupEventListeners() {
             
             // Also update any dynamic UI elements that might not be tagged
             updateScreenshotList();
-            updateProjectMenu();
+            updateProjectSelector();
         });
     });
 
@@ -4303,21 +4303,21 @@ function setupEventListeners() {
     });
 
     // Screenshot settings
-    document.getElementById('screenshot-scale').addEventListener('input', (e) => {
+    document.getElementById('device-scale').addEventListener('input', (e) => {
         setScreenshotSetting('scale', parseInt(e.target.value));
-        document.getElementById('screenshot-scale-value').textContent = formatValue(e.target.value) + '%';
+        document.getElementById('device-scale-value').textContent = formatValue(e.target.value) + '%';
         updateCanvas();
     });
 
-    document.getElementById('screenshot-y').addEventListener('input', (e) => {
+    document.getElementById('device-y').addEventListener('input', (e) => {
         setScreenshotSetting('y', parseInt(e.target.value));
-        document.getElementById('screenshot-y-value').textContent = formatValue(e.target.value) + '%';
+        document.getElementById('device-y-value').textContent = formatValue(e.target.value) + '%';
         updateCanvas();
     });
 
-    document.getElementById('screenshot-x').addEventListener('input', (e) => {
+    document.getElementById('device-x').addEventListener('input', (e) => {
         setScreenshotSetting('x', parseInt(e.target.value));
-        document.getElementById('screenshot-x-value').textContent = formatValue(e.target.value) + '%';
+        document.getElementById('device-x-value').textContent = formatValue(e.target.value) + '%';
         updateCanvas();
     });
 
@@ -5000,7 +5000,7 @@ function openTranslateModal(target) {
         if (!el.texts) el.texts = {};
         texts = el.texts;
     } else {
-        document.getElementById('translate-target-type').textContent = isHeadline ? 'Headline' : 'Subheadline';
+        document.getElementById('translate-target-type').textContent = isHeadline ? t('text_headline') : t('text_subheadline');
         languages = isHeadline ? text.headlineLanguages : text.subheadlineLanguages;
         texts = isHeadline ? text.headlines : text.subheadlines;
     }
@@ -5032,7 +5032,7 @@ function openTranslateModal(target) {
                 <span class="flag">${languageFlags[lang]}</span>
                 <span>${languageNames[lang] || lang}</span>
             </div>
-            <textarea placeholder="Enter ${languageNames[lang] || lang} translation...">${texts[lang] || ''}</textarea>
+            <textarea placeholder="${tf('translate_target_placeholder', { lang: languageNames[lang] || lang })}">${texts[lang] || ''}</textarea>
         `;
         targetsContainer.appendChild(item);
     });
@@ -5053,10 +5053,10 @@ function updateTranslateSourcePreview() {
         sourceText = texts[sourceLang] || '';
     }
 
-    document.getElementById('source-text-preview').textContent = sourceText || 'No text entered';
+    document.getElementById('source-text-preview').textContent = sourceText || t('msg_no_text_entered');
 }
 
-function applyTranslations() {
+function commitTranslateModal() {
     const isElement = currentTranslateTarget === 'element';
 
     if (isElement) {
@@ -5115,7 +5115,7 @@ async function aiTranslateAll() {
     }
 
     if (!sourceText.trim()) {
-        setTranslateStatus('Please enter text in the source language first', 'error');
+        setTranslateStatus(t('msg_enter_source_text'), 'error');
         return;
     }
 
@@ -5123,7 +5123,7 @@ async function aiTranslateAll() {
     const targetLangs = languages.filter(lang => lang !== sourceLang);
 
     if (targetLangs.length === 0) {
-        setTranslateStatus('Add more languages to translate to', 'error');
+        setTranslateStatus(t('msg_add_langs_translate'), 'error');
         return;
     }
 
@@ -5133,7 +5133,7 @@ async function aiTranslateAll() {
     const apiKey = localStorage.getItem(providerConfig.storageKey);
 
     if (!apiKey) {
-        setTranslateStatus(`Add your LLM API key in Settings to use AI translation.`, 'error');
+        setTranslateStatus(t('msg_api_key_required'), 'error');
         return;
     }
 
@@ -5144,10 +5144,10 @@ async function aiTranslateAll() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2v4m0 12v4m-8-10h4m12 0h4m-5.66-5.66l-2.83 2.83m-5.66 5.66l-2.83 2.83m14.14 0l-2.83-2.83M6.34 6.34L3.51 3.51"/>
         </svg>
-        <span>Translating...</span>
+        <span>${t('translate_ai_btn_loading')}</span>
     `;
 
-    setTranslateStatus(`Translating to ${targetLangs.length} language(s) with ${providerConfig.name}...`, '');
+    setTranslateStatus(tf('msg_translating_to', { count: targetLangs.length, provider: providerConfig.name }), '');
 
     // Mark all target items as translating
     targetLangs.forEach(lang => {
@@ -5207,17 +5207,17 @@ Translate to these language codes: ${targetLangs.join(', ')}`;
             }
         });
 
-        setTranslateStatus(`✓ Translated to ${translatedCount} language(s)`, 'success');
+        setTranslateStatus(tf('msg_translated_n_langs', { count: translatedCount }), 'success');
 
     } catch (error) {
         console.error('Translation error:', error);
 
         if (error.message === 'Failed to fetch') {
-            setTranslateStatus('Connection failed. Check your API key in Settings.', 'error');
+            setTranslateStatus(t('msg_connection_failed'), 'error');
         } else if (error.message === 'AI_UNAVAILABLE' || error.message.includes('401') || error.message.includes('403')) {
-            setTranslateStatus('Invalid API key. Update it in Settings (gear icon).', 'error');
+            setTranslateStatus(t('msg_invalid_api_key'), 'error');
         } else {
-            setTranslateStatus('Translation failed: ' + error.message, 'error');
+            setTranslateStatus(tf('msg_translation_failed', { message: error.message }), 'error');
         }
     } finally {
         btn.disabled = false;
@@ -5226,7 +5226,7 @@ Translate to these language codes: ${targetLangs.join(', ')}`;
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
-            <span>Auto-translate with AI</span>
+            <span>${t('text_ai_action')}</span>
         `;
 
         // Remove translating state
@@ -5260,7 +5260,7 @@ function showAppAlert(message, type = 'info') {
                 </div>
                 <p class="modal-message" style="margin: 16px 0;">${message}</p>
                 <div class="modal-buttons">
-                    <button class="modal-btn modal-btn-confirm" style="background: var(--accent);">OK</button>
+                    <button class="modal-btn modal-btn-confirm" style="background: var(--accent);">${t('btn_ok')}</button>
                 </div>
             </div>
         `;
@@ -5279,7 +5279,7 @@ function showAppAlert(message, type = 'info') {
 }
 
 // Helper function to show styled confirm modal
-function showAppConfirm(message, confirmText = 'Confirm', cancelText = 'Cancel') {
+function showAppConfirm(message, confirmText = t('btn_confirm'), cancelText = t('settings_cancel')) {
     return new Promise((resolve) => {
         const overlay = document.createElement('div');
         overlay.className = 'modal-overlay visible';
@@ -5357,11 +5357,11 @@ function showTranslateConfirmDialog(providerName) {
                         <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2v3M22 22l-5-10-5 10M14 18h6"/>
                     </svg>
                 </div>
-                <h3 class="modal-title">Translate All Text</h3>
-                <p class="modal-message" style="margin-bottom: 16px;">Translate headlines and subheadlines from one language to all other project languages.</p>
+                <h3 class="modal-title">${t('translate_all_modal_title')}</h3>
+                <p class="modal-message" style="margin-bottom: 16px;">${t('translate_all_modal_desc')}</p>
 
                 <div style="margin-bottom: 16px;">
-                    <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">Source Language</label>
+                    <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px;">${t('translate_source_lang')}</label>
                     <select id="translate-source-lang" style="width: 100%; padding: 10px 12px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 14px; cursor: pointer;">
                         ${languageOptions}
                     </select>
@@ -5369,22 +5369,22 @@ function showTranslateConfirmDialog(providerName) {
 
                 <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 12px; margin-bottom: 16px;">
                     <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
-                        <span style="color: var(--text-secondary);">Texts to translate:</span>
+                        <span style="color: var(--text-secondary);">${t('translate_all_texts_count')}</span>
                         <span id="translate-text-count" style="color: var(--text-primary); font-weight: 500;">${initialCount}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
-                        <span style="color: var(--text-secondary);">Target languages:</span>
+                        <span style="color: var(--text-secondary);">${t('translate_all_target_langs')}</span>
                         <span style="color: var(--text-primary); font-weight: 500;">${targetCount}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                        <span style="color: var(--text-secondary);">Provider:</span>
+                        <span style="color: var(--text-secondary);">${t('translate_all_provider')}</span>
                         <span style="color: var(--text-primary); font-weight: 500;">${providerName}</span>
                     </div>
                 </div>
 
                 <div class="modal-buttons">
-                    <button class="modal-btn modal-btn-cancel" id="translate-cancel">Cancel</button>
-                    <button class="modal-btn modal-btn-confirm" id="translate-confirm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Translate</button>
+                    <button class="modal-btn modal-btn-cancel" id="translate-cancel">${t('settings_cancel')}</button>
+                    <button class="modal-btn modal-btn-confirm" id="translate-confirm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">${t('translate_all_confirm_btn')}</button>
                 </div>
             </div>
         `;
@@ -5500,8 +5500,8 @@ async function translateAllText() {
                     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                 </svg>
             </div>
-            <h3 class="modal-title">Translating...</h3>
-            <p class="modal-message" id="translate-progress-text">Sending to AI...</p>
+            <h3 class="modal-title">${t('translate_progress_title')}</h3>
+            <p class="modal-message" id="translate-progress-text">${t('translate_progress_sending')}</p>
             <p class="modal-message" id="translate-progress-detail" style="font-size: 11px; color: var(--text-tertiary); margin-top: 8px;"></p>
         </div>
         <style>
@@ -5522,7 +5522,11 @@ async function translateAllText() {
         if (progressDetail) progressDetail.textContent = detail;
     };
 
-    updateStatus('Sending to AI...', `${textsToTranslate.length} texts to ${targetLangs.length} languages using ${providerConfig.name}`);
+    updateStatus(t('translate_progress_sending'), tf('translate_progress_batch_detail', {
+        textCount: textsToTranslate.length,
+        langCount: targetLangs.length,
+        provider: providerConfig.name
+    }));
 
     try {
         // Build a single prompt with all texts
@@ -5585,7 +5589,7 @@ Translate to these language codes: ${targetLangs.join(', ')}`;
             responseText = await translateWithGoogle(apiKey, prompt);
         }
 
-        updateStatus('Processing response...', 'Parsing translations');
+        updateStatus(t('translate_progress_processing'), t('translate_progress_parsing'));
 
         // Clean up response - remove markdown code blocks and extract JSON
         responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
@@ -5606,7 +5610,7 @@ Translate to these language codes: ${targetLangs.join(', ')}`;
             throw new Error('Failed to parse translation response. The AI may have returned incomplete text.');
         }
 
-        updateStatus('Applying translations...', 'Updating screenshots');
+        updateStatus(t('translate_progress_applying'), t('translate_progress_updating'));
 
         // Apply translations
         let appliedCount = 0;
@@ -5652,7 +5656,7 @@ Translate to these language codes: ${targetLangs.join(', ')}`;
         } else if (error.message === 'AI_UNAVAILABLE' || error.message.includes('401') || error.message.includes('403')) {
             await showAppAlert(t('msg_invalid_api_key'), 'error');
         } else {
-            await showAppAlert('Translation failed: ' + error.message, 'error');
+            await showAppAlert(tf('msg_translation_failed', { message: error.message }), 'error');
         }
     }
 }
@@ -5786,7 +5790,7 @@ function openSettingsModal() {
         const status = document.getElementById(`settings-key-status-${provider}`);
         if (status) {
             if (savedKey) {
-                status.textContent = '✓ API key is saved';
+                status.textContent = t('msg_api_key_saved');
                 status.className = 'settings-key-status success';
             } else {
                 status.textContent = '';
@@ -5971,12 +5975,12 @@ function applyPositionPreset(preset) {
     setScreenshotSetting('perspective', p.perspective);
 
     // Update UI controls
-    document.getElementById('screenshot-scale').value = p.scale;
-    document.getElementById('screenshot-scale-value').textContent = formatValue(p.scale) + '%';
-    document.getElementById('screenshot-x').value = p.x;
-    document.getElementById('screenshot-x-value').textContent = formatValue(p.x) + '%';
-    document.getElementById('screenshot-y').value = p.y;
-    document.getElementById('screenshot-y-value').textContent = formatValue(p.y) + '%';
+    document.getElementById('device-scale').value = p.scale;
+    document.getElementById('device-scale-value').textContent = formatValue(p.scale) + '%';
+    document.getElementById('device-x').value = p.x;
+    document.getElementById('device-x-value').textContent = formatValue(p.x) + '%';
+    document.getElementById('device-y').value = p.y;
+    document.getElementById('device-y-value').textContent = formatValue(p.y) + '%';
     document.getElementById('screenshot-rotation').value = p.rotation;
     document.getElementById('screenshot-rotation-value').textContent = formatValue(p.rotation) + '°';
 
