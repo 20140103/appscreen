@@ -310,7 +310,7 @@ async function generateMagicalTitles() {
     }
 
     if (images.length === 0) {
-        await showAppAlert('No screenshot images found. Please upload some screenshots first.', 'error');
+        await showAppAlert(t('msg_upload_multiple_first'), 'error');
         return;
     }
 
@@ -356,9 +356,9 @@ Write all titles in ${langName}.`;
                         <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z"/>
                     </svg>
                 </div>
-                <h3 class="modal-title">Generating Magical Titles...</h3>
-                <p id="magical-titles-status" style="color: var(--text-secondary); margin-top: 8px;">Analyzing ${images.length} screenshots with AI...</p>
-                <p id="magical-titles-detail" style="color: var(--text-tertiary); font-size: 12px; margin-top: 4px;">Using ${providerConfig.name}</p>
+                <h3 class="modal-title" data-i18n="magical_titles_generating">Generating Magical Titles...</h3>
+                <p id="magical-titles-status" style="color: var(--text-secondary); margin-top: 8px;">${tf('magical_titles_analyzing', { count: images.length })}</p>
+                <p id="magical-titles-detail" style="color: var(--text-tertiary); font-size: 12px; margin-top: 4px;">${t('magical_titles_using')} ${providerConfig.name}</p>
             </div>
         </div>
     `;
@@ -442,7 +442,7 @@ Write all titles in ${langName}.`;
         progressOverlay.remove();
 
         // Show success message
-        await showAppAlert(`Generated titles for ${Object.keys(titles).length} screenshots in ${langName}!`, 'success');
+        await showAppAlert(tf('msg_magical_titles_success', { count: Object.keys(titles).length, lang: langName }), 'success');
 
     } catch (error) {
         console.error('Magical Titles error:', error);

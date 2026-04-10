@@ -6,6 +6,7 @@ const state = {
     outputDevice: 'iphone-6.9',
     currentLanguage: 'en', // Global current language for all text
     projectLanguages: ['en'], // Languages available in this project
+    uiLanguage: getUILanguage(), // App interface language (en or zh)
     customWidth: 1290,
     customHeight: 2796,
     // Default settings applied to new screenshots
@@ -1128,7 +1129,7 @@ async function renderFontList(pickerId, ids) {
 
             // Load Google Font if needed
             if (fontCategory === 'google') {
-                option.querySelector('.font-option-category').textContent = 'Loading...';
+                option.querySelector('.font-option-category').textContent = t('text_loading');
                 option.querySelector('.font-option-category').classList.add('font-option-loading');
                 await loadGoogleFont(fontName);
                 option.querySelector('.font-option-name').style.fontFamily = fontValue;
@@ -1429,7 +1430,7 @@ function updateProjectSelector() {
     // Update trigger display - always use actual state for current project
     document.getElementById('project-trigger-name').textContent = currentProject.name;
     const count = state.screenshots.length;
-    document.getElementById('project-trigger-meta').textContent = `${count} screenshot${count !== 1 ? 's' : ''}`;
+    document.getElementById('project-trigger-meta').textContent = count === 1 ? t('count_screenshots_single') : tf('count_screenshots', { count });
 
     // Build menu options
     projects.forEach(project => {
@@ -1441,7 +1442,7 @@ function updateProjectSelector() {
 
         option.innerHTML = `
             <span class="project-option-name">${project.name}</span>
-            <span class="project-option-meta">${screenshotCount} screenshot${screenshotCount !== 1 ? 's' : ''}</span>
+            <span class="project-option-meta">${screenshotCount === 1 ? t('count_screenshots_single') : tf('count_screenshots', { count: screenshotCount })}</span>
         `;
 
         option.addEventListener('click', (e) => {
@@ -1481,8 +1482,30 @@ function initSync() {
     initFontPicker();
     updateGradientStopsUI();
     updateCanvas();
+    
+    // Initial UI translation
+    applyTranslations();
+    syncUILanguageSelector();
+    
     // Then load saved data asynchronously
     init();
+}
+
+/**
+ * Sync UI language selector buttons with current state
+ */
+function syncUILanguageSelector() {
+    const selector = document.getElementById('ui-language-selector');
+    if (!selector) return;
+    
+    const lang = getUILanguage();
+    selector.querySelectorAll('button').forEach(btn => {
+        if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 }
 
 // Save state to IndexedDB for current project
@@ -1973,7 +1996,7 @@ function renameProject(newName) {
 // Delete current project
 async function deleteProject() {
     if (projects.length <= 1) {
-        await showAppAlert('Cannot delete the only project', 'info');
+        await showAppAlert(t('msg_delete_last_project'), 'info');
         return;
     }
 
@@ -2346,9 +2369,9 @@ function updateElementsList() {
         item.dataset.elementId = el.id;
 
         const layerLabels = {
-            'behind-screenshot': 'Behind',
-            'above-screenshot': 'Middle',
-            'above-text': 'Front'
+            'behind-screenshot': t('layer_behind'),
+            'above-screenshot': t('layer_middle'),
+            'above-text': t('layer_front')
         };
 
         let thumbContent;
@@ -2367,7 +2390,7 @@ function updateElementsList() {
         item.innerHTML = `
             <div class="element-item-thumb">${thumbContent}</div>
             <div class="element-item-info">
-                <div class="element-item-name">${el.type === 'text' ? (getElementText(el) || 'Text') : el.type === 'emoji' ? `${el.emoji} ${el.name}` : el.name}</div>
+                <div class="element-item-name">${el.type === 'text' ? (getElementText(el) || t('elements_text')) : el.type === 'emoji' ? `${el.emoji} ${el.name}` : el.name}</div>
                 <div class="element-item-layer">${layerLabels[el.layer] || el.layer}</div>
             </div>
             <div class="element-item-actions">
@@ -2423,8 +2446,8 @@ function updateElementProperties() {
     }
 
     propsEl.style.display = '';
-    const titleMap = { text: 'Text Element', emoji: `${el.emoji} Emoji`, icon: `Icon: ${el.name}`, graphic: el.name || 'Graphic' };
-    document.getElementById('element-properties-title').textContent = titleMap[el.type] || el.name || 'Element';
+    const titleMap = { text: t('element_text_label'), emoji: `${el.emoji} Emoji`, icon: `${t('elements_icon')}: ${el.name}`, graphic: el.name || t('elements_image') };
+    document.getElementById('element-properties-title').textContent = titleMap[el.type] || el.name || t('element_label');
 
     document.getElementById('element-layer').value = el.layer;
     document.getElementById('element-x').value = el.x;
@@ -3682,9 +3705,9 @@ function setupEventListeners() {
     });
 
     document.getElementById('new-project-btn').addEventListener('click', () => {
-        document.getElementById('project-modal-title').textContent = 'New Project';
+        document.getElementById('project-modal-title').textContent = t('new_project_title');
         document.getElementById('project-name-input').value = '';
-        document.getElementById('project-modal-confirm').textContent = 'Create';
+        document.getElementById('project-modal-confirm').textContent = t('btn_create');
         document.getElementById('project-modal').dataset.mode = 'new';
 
         const duplicateGroup = document.getElementById('duplicate-from-group');
@@ -3720,9 +3743,9 @@ function setupEventListeners() {
 
     document.getElementById('rename-project-btn').addEventListener('click', () => {
         const project = projects.find(p => p.id === currentProjectId);
-        document.getElementById('project-modal-title').textContent = 'Rename Project';
+        document.getElementById('project-modal-title').textContent = t('rename_project_title');
         document.getElementById('project-name-input').value = project ? project.name : '';
-        document.getElementById('project-modal-confirm').textContent = 'Rename';
+        document.getElementById('project-modal-confirm').textContent = t('btn_rename');
         document.getElementById('project-modal').dataset.mode = 'rename';
         document.getElementById('duplicate-from-group').style.display = 'none';
         document.getElementById('project-modal').classList.add('visible');
@@ -3731,7 +3754,7 @@ function setupEventListeners() {
 
     document.getElementById('delete-project-btn').addEventListener('click', async () => {
         if (projects.length <= 1) {
-            await showAppAlert('Cannot delete the only project', 'info');
+            await showAppAlert(t('msg_delete_last_project'), 'info');
             return;
         }
         const project = projects.find(p => p.id === currentProjectId);
@@ -3748,7 +3771,7 @@ function setupEventListeners() {
     document.getElementById('project-modal-confirm').addEventListener('click', async () => {
         const name = document.getElementById('project-name-input').value.trim();
         if (!name) {
-            await showAppAlert('Please enter a project name', 'info');
+            await showAppAlert(t('msg_enter_project_name'), 'info');
             return;
         }
 
@@ -3966,6 +3989,20 @@ function setupEventListeners() {
 
     document.getElementById('settings-modal-save').addEventListener('click', () => {
         saveSettings();
+    });
+
+    // UI Language selector
+    document.querySelectorAll('#ui-language-selector button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.lang;
+            setUILanguage(lang);
+            state.uiLanguage = lang;
+            syncUILanguageSelector();
+            
+            // Also update any dynamic UI elements that might not be tagged
+            updateScreenshotList();
+            updateProjectMenu();
+        });
     });
 
     // Theme selector buttons
@@ -4958,7 +4995,7 @@ function openTranslateModal(target) {
     if (isElement) {
         const el = getSelectedElement();
         if (!el || el.type !== 'text') return;
-        document.getElementById('translate-target-type').textContent = 'Element Text';
+        document.getElementById('translate-target-type').textContent = t('element_text_type');
         languages = state.projectLanguages;
         if (!el.texts) el.texts = {};
         texts = el.texts;
@@ -5399,7 +5436,7 @@ function showTranslateConfirmDialog(providerName) {
 // Translate all text (headlines + subheadlines) from selected source language to all other project languages
 async function translateAllText() {
     if (state.projectLanguages.length < 2) {
-        await showAppAlert('Add more languages to your project first (via the language menu).', 'info');
+        await showAppAlert(t('msg_add_languages_first'), 'info');
         return;
     }
 
@@ -5409,7 +5446,7 @@ async function translateAllText() {
     const apiKey = localStorage.getItem(providerConfig.storageKey);
 
     if (!apiKey) {
-        await showAppAlert('Add your LLM API key in Settings to use AI translation.', 'error');
+        await showAppAlert(t('msg_api_key_required'), 'error');
         return;
     }
 
@@ -5448,7 +5485,7 @@ async function translateAllText() {
     });
 
     if (textsToTranslate.length === 0) {
-        await showAppAlert(`No text found in ${languageNames[sourceLang] || sourceLang}. Add headlines or subheadlines first.`, 'info');
+        await showAppAlert(tf('msg_no_text', { lang: languageNames[sourceLang] || sourceLang }), 'info');
         return;
     }
 
@@ -5604,16 +5641,16 @@ Translate to these language codes: ${targetLangs.join(', ')}`;
         // Remove progress overlay
         progressOverlay.remove();
 
-        await showAppAlert(`Successfully translated ${appliedCount} text(s)!`, 'success');
+        await showAppAlert(tf('msg_success_translated', { count: appliedCount }), 'success');
 
     } catch (error) {
         console.error('Translation error:', error);
         progressOverlay.remove();
 
         if (error.message === 'Failed to fetch') {
-            await showAppAlert('Connection failed. Check your API key in Settings.', 'error');
+            await showAppAlert(t('msg_connection_failed'), 'error');
         } else if (error.message === 'AI_UNAVAILABLE' || error.message.includes('401') || error.message.includes('403')) {
-            await showAppAlert('Invalid API key. Update it in Settings (gear icon).', 'error');
+            await showAppAlert(t('msg_invalid_api_key'), 'error');
         } else {
             await showAppAlert('Translation failed: ' + error.message, 'error');
         }
@@ -5807,7 +5844,7 @@ function saveSettings() {
             // Validate key format
             if (key.startsWith(config.keyPrefix)) {
                 localStorage.setItem(config.storageKey, key);
-                status.textContent = '✓ API key saved';
+                status.textContent = t('msg_api_key_saved');
                 status.className = 'settings-key-status success';
             } else {
                 status.textContent = `Invalid format. Should start with ${config.keyPrefix}...`;
@@ -8021,10 +8058,12 @@ function hexToRgba(hex, alpha) {
 
 async function exportCurrent() {
     if (state.screenshots.length === 0) {
-        await showAppAlert('Please upload a screenshot first', 'info');
+        await showAppAlert(t('msg_upload_first'), 'info');
         return;
     }
 
+    const canvas = document.getElementById('preview-canvas');
+    
     // Ensure canvas is up-to-date (especially important for 3D mode)
     updateCanvas();
 
@@ -8036,7 +8075,7 @@ async function exportCurrent() {
 
 async function exportAll() {
     if (state.screenshots.length === 0) {
-        await showAppAlert('Please upload screenshots first', 'info');
+        await showAppAlert(t('msg_upload_multiple_first'), 'info');
         return;
     }
 
